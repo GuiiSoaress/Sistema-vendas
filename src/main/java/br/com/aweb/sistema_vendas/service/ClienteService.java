@@ -3,11 +3,13 @@ package br.com.aweb.sistema_vendas.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import br.com.aweb.sistema_vendas.model.Cliente;
-import br.com.aweb.sistema_vendas.model.Produto;
 import br.com.aweb.sistema_vendas.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
 
+@Service
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
