@@ -1,7 +1,5 @@
 package br.com.aweb.sistema_vendas.model;
 
-import java.math.BigDecimal;
-
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.persistence.Column;
@@ -12,8 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity // entidade do banco de dados
 @Table(name = "Clientes") // nome da tabela (opcional)
