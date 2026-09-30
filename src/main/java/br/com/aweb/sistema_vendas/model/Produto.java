@@ -11,18 +11,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Entity // entidade do banco de dados
 @Table(name = "produtos") // nome da tabela (opcional)
-@Data // gera getters and setters lombok
-@NoArgsConstructor // Lombok 
-@AllArgsConstructor 
-@EqualsAndHashCode // gera .equals e hash code lombok
-
+// gera getters and setters lombok
 public class Produto {
 
     @Id
@@ -47,4 +39,17 @@ public class Produto {
     @Column(nullable = false)
     private Integer quantidadeEmEstoque;
 
+
+    public Long getId() { return this.id; }
+    public void setId(Long id) { this.id = id; }
+    public String getNome() { return this.nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public String getDescricao() { return this.descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public BigDecimal getPreco() { return this.preco; }
+    public void setPreco(BigDecimal preco) { this.preco = preco; }
+    public Integer getQuantidadeEmEstoque() { return this.quantidadeEmEstoque; }
+    public void setQuantidadeEmEstoque(Integer quantidadeEmEstoque) { this.quantidadeEmEstoque = quantidadeEmEstoque; }
+
+    public Produto() {}
 }

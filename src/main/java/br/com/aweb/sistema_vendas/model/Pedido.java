@@ -18,15 +18,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "pedidos")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Pedido {
 
     @Id
@@ -84,4 +78,21 @@ public class Pedido {
                         .multiply(BigDecimal.valueOf(item.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public Long getId() { return this.id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getVersion() { return this.version; }
+    public void setVersion(Long version) { this.version = version; }
+    public Cliente getCliente() { return this.cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
+    public List<ItemPedido> getItens() { return this.itens; }
+    public void setItens(List<ItemPedido> itens) { this.itens = itens; }
+    public LocalDateTime getDataHora() { return this.dataHora; }
+    public void setDataHora(LocalDateTime dataHora) { this.dataHora = dataHora; }
+    public BigDecimal getValorTotal() { return this.valorTotal; }
+    public void setValorTotal(BigDecimal valorTotal) { this.valorTotal = valorTotal; }
+    public StatusPedido getStatus() { return this.status; }
+    public void setStatus(StatusPedido status) { this.status = status; }
+
+    public Pedido() {}
 }

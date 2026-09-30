@@ -9,5 +9,5 @@ import br.com.aweb.sistema_vendas.model.StatusPedido;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long>{
     
-    List<Pedido> findfindBy(StatusPedido status);
+    List<Pedido> findByStatus(StatusPedido status);
 }
