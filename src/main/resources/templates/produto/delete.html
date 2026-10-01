@@ -1,42 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Excluir Produto</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('Excluir produto')}"></head>
 <body>
-<div class="container mt-4">
-    <h1>Excluir Produto</h1>
-
-    <div class="alert alert-danger">
-        <p>Tem certeza que deseja excluir o produto <strong th:text="${produto.nome}"></strong>?</p>
-    </div>
-
-    <table class="table table-bordered">
-        <tr>
-            <th>Nome</th>
-            <td th:text="${produto.nome}"></td>
-        </tr>
-        <tr>
-            <th>Descrição</th>
-            <td th:text="${produto.descricao}"></td>
-        </tr>
-        <tr>
-            <th>Preço</th>
-            <td th:text="${produto.preco}"></td>
-        </tr>
-        <tr>
-            <th>Quantidade em Estoque</th>
-            <td th:text="${produto.quantidadeEmEstoque}"></td>
-        </tr>        
+<nav th:replace="~{fragments/layout :: navbar('produtos')}"></nav>
+<main class="container py-4" style="max-width:720px">
+    <h1 class="page-title h3 mb-3">Excluir produto</h1>
+    <div class="alert alert-danger">Você vai excluir <strong th:text="${produto.nome}"></strong>. Essa ação não pode ser desfeita.</div>
+    <table class="table table-bordered bg-white">
+        <tr><th class="w-25">Nome</th><td th:text="${produto.nome}"></td></tr>
+        <tr><th>Descrição</th><td th:text="${produto.descricao}"></td></tr>
+        <tr><th>Preço</th><td th:text="${#numbers.formatCurrency(produto.preco)}"></td></tr>
+        <tr><th>Estoque</th><td th:text="${produto.quantidadeEmEstoque}"></td></tr>
     </table>
-
     <form th:action="@{/produtos/delete/{id}(id=${produto.id})}" method="post">
-        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
-        <a th:href="@{/produtos}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Excluir produto</button>
+        <a th:href="@{/produtos}" class="btn btn-outline-secondary">Cancelar</a>
     </form>
-</div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>

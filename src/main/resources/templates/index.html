@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Início')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar('home')}"></nav>
+<main class="container py-4">
+    <h1 class="page-title mb-1">Painel de vendas</h1>
+    <p class="text-secondary mb-4">Registre pedidos, acompanhe o estoque e mantenha clientes e produtos em dia.</p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <a class="card-link-home" th:href="@{/pedidos}"><div class="card h-100"><div class="card-body">
+                <div class="resumo-num" th:text="${pedidosAtivos}">0</div>
+                <div class="fw-semibold mt-2">Pedidos ativos</div>
+                <div class="text-secondary small">Ver e editar pedidos</div>
+            </div></div></a>
+        </div>
+        <div class="col-md-4">
+            <a class="card-link-home" th:href="@{/clientes}"><div class="card h-100"><div class="card-body">
+                <div class="resumo-num" th:text="${totalClientes}">0</div>
+                <div class="fw-semibold mt-2">Clientes cadastrados</div>
+                <div class="text-secondary small">Gerenciar clientes</div>
+            </div></div></a>
+        </div>
+        <div class="col-md-4">
+            <a class="card-link-home" th:href="@{/produtos}"><div class="card h-100"><div class="card-body">
+                <div class="resumo-num" th:text="${totalProdutos}">0</div>
+                <div class="fw-semibold mt-2">Produtos no catálogo</div>
+                <div class="text-secondary small">Gerenciar produtos e estoque</div>
+            </div></div></a>
+        </div>
+    </div>
+
+    <a class="btn btn-primary btn-lg" th:href="@{/pedidos/novo}">Criar novo pedido</a>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

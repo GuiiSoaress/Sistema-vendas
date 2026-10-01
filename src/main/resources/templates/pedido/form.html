@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Novo Pedido</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Novo pedido')}"></head>
 <body>
-<div class="container mt-5">
-    <h2>Novo Pedido</h2>
-    
-    <form th:action="@{/pedidos/novo}" method="post">
-        <div class="mb-3">
-            <label for="clienteId" class="form-label">Selecione o Cliente</label>
-            <select class="form-select" id="clienteId" name="clienteId" required>
-                <option value="">-- Selecione um cliente --</option>
-                <option th:each="cliente : ${clientes}" 
-                        th:value="${cliente.id}" 
-                        th:text="${cliente.nome + ' - ' + cliente.cpf}"></option>
-            </select>
+<nav th:replace="~{fragments/layout :: navbar('pedidos')}"></nav>
+<main class="container py-4" style="max-width:620px">
+    <h1 class="page-title h3 mb-3">Novo pedido</h1>
+    <div th:replace="~{fragments/layout :: alertas}"></div>
+    <div class="alert alert-info" th:if="${#lists.isEmpty(clientes)}">
+        Cadastre um cliente antes de criar um pedido. <a th:href="@{/clientes/novo}">Novo cliente</a>
+    </div>
+    <form class="card card-body" th:action="@{/pedidos/novo}" method="post" th:unless="${#lists.isEmpty(clientes)}">
+        <label for="clienteId" class="form-label">Cliente</label>
+        <select class="form-select" id="clienteId" name="clienteId" required>
+            <option value="">Selecione um cliente</option>
+            <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome + ' - ' + cliente.cpf}"></option>
+        </select>
+        <div class="form-text">Depois de criar o pedido, você adiciona os produtos.</div>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Criar pedido</button>
+            <a th:href="@{/pedidos}" class="btn btn-outline-secondary">Cancelar</a>
         </div>
-
-        <button type="submit" class="btn btn-primary">Criar Pedido</button>
-        <a th:href="@{/pedidos}" class="btn btn-secondary">Cancelar</a>
     </form>
-</div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>

@@ -1,49 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Listagem de Clientes</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('Clientes')}"></head>
 <body>
-<div class="container mt-4">
-    <h1>Clientes</h1>
-    <a class="btn btn-primary mb-3" th:href="@{/clientes/novo}">Novo Cliente</a>
-
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-        <tr>
-            <th>Nome</th>
-            <th>E-mail</th>
-            <th>CPF</th>
-            <th>Telefone</th>
-            <th>Endereço</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="cliente : ${clientes}">
-            <td th:text="${cliente.nome}"></td>
-            <td th:text="${cliente.email}"></td>
-            <td th:text="${cliente.cpf}"></td>
-            <td th:text="${cliente.telefone}"></td>
-            <td>
-                <span th:text="${cliente.logradouro}"></span>,
-                <span th:text="${cliente.numero}"></span>
-                <span th:text="${cliente.complemento}"></span> -
-                <span th:text="${cliente.bairro}"></span>,
-                <span th:text="${cliente.cidade}"></span> -
-                <span th:text="${cliente.uf}"></span>,
-                CEP: <span th:text="${cliente.cep}"></span>
-            </td>
-            <td>
-                <a class="btn btn-sm btn-warning" th:href="@{/clientes/edit/{id}(id=${cliente.id})}">Editar</a>
-                <a class="btn btn-sm btn-danger" th:href="@{/clientes/delete/{id}(id=${cliente.id})}">Excluir</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<nav th:replace="~{fragments/layout :: navbar('clientes')}"></nav>
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="page-title h3 mb-0">Clientes</h1>
+        <a class="btn btn-primary" th:href="@{/clientes/novo}">Novo cliente</a>
+    </div>
+    <div th:replace="~{fragments/layout :: alertas}"></div>
+    <div class="table-responsive bg-white border rounded">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Nome</th><th>E-mail</th><th>CPF</th><th>Telefone</th><th>Endereço</th><th class="text-end">Ações</th></tr></thead>
+            <tbody>
+            <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.nome}"></td>
+                <td th:text="${cliente.email}"></td>
+                <td th:text="${cliente.cpf}"></td>
+                <td th:text="${cliente.telefone}"></td>
+                <td class="small" th:text="${cliente.logradouro + ', ' + cliente.numero + ' - ' + cliente.bairro + ', ' + cliente.cidade + '/' + cliente.uf}"></td>
+                <td class="text-end text-nowrap">
+                    <a class="btn btn-sm btn-outline-secondary" th:href="@{/clientes/edit/{id}(id=${cliente.id})}">Editar</a>
+                    <a class="btn btn-sm btn-outline-danger" th:href="@{/clientes/delete/{id}(id=${cliente.id})}">Excluir</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(clientes)}"><td colspan="6" class="text-center text-secondary py-4">Nenhum cliente cadastrado. Use "Novo cliente" para começar.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>

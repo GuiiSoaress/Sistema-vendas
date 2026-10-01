@@ -36,6 +36,9 @@ public class PedidoService {
     // ADICIONAR ITEM ao pedido
     @Transactional
     public void adicionarItem(Long pedidoId, Long produtoId, Integer quantidade) {
+        if (quantidade == null || quantidade <= 0) {
+            throw new IllegalArgumentException("Informe uma quantidade maior que zero.");
+        }
         Optional<Pedido> optionalPedido = pedidoRepository.findById(pedidoId);
         Optional<Produto> optionalProduto = produtoRepository.findById(produtoId);
 
@@ -143,6 +146,10 @@ public class PedidoService {
         }
 
         Pedido pedido = optionalPedido.get();
+
+        if (pedido.getStatus() == StatusPedido.CANCELADO) {
+            throw new IllegalStateException("Este pedido já está cancelado.");
+        }
 
         // Devolve todos os itens ao estoque
         for (ItemPedido item : pedido.getItens()) {

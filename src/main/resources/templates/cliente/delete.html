@@ -1,54 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Excluir Cliente</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('Excluir cliente')}"></head>
 <body>
-<div class="container mt-4">
-    <h1>Excluir Cliente</h1>
-
-    <div class="alert alert-danger">
-        <p>Tem certeza que deseja excluir o cliente <strong th:text="${cliente.nome}"></strong>?</p>
-    </div>
-
-    <table class="table table-bordered">
-        <tr>
-            <th>Nome</th>
-            <td th:text="${cliente.nome}"></td>
-        </tr>
-        <tr>
-            <th>E-mail</th>
-            <td th:text="${cliente.email}"></td>
-        </tr>
-        <tr>
-            <th>CPF</th>
-            <td th:text="${cliente.cpf}"></td>
-        </tr>
-        <tr>
-            <th>Telefone</th>
-            <td th:text="${cliente.telefone}"></td>
-        </tr>
-        <tr>
-            <th>Endereço</th>
-            <td>
-                <span th:text="${cliente.logradouro}"></span>,
-                <span th:text="${cliente.numero}"></span>
-                <span th:text="${cliente.complemento}"></span> -
-                <span th:text="${cliente.bairro}"></span>,
-                <span th:text="${cliente.cidade}"></span> -
-                <span th:text="${cliente.uf}"></span>,
-                CEP: <span th:text="${cliente.cep}"></span>
-            </td>
-        </tr>
+<nav th:replace="~{fragments/layout :: navbar('clientes')}"></nav>
+<main class="container py-4" style="max-width:720px">
+    <h1 class="page-title h3 mb-3">Excluir cliente</h1>
+    <div class="alert alert-danger">Você vai excluir <strong th:text="${cliente.nome}"></strong>. Essa ação não pode ser desfeita.</div>
+    <table class="table table-bordered bg-white">
+        <tr><th class="w-25">Nome</th><td th:text="${cliente.nome}"></td></tr>
+        <tr><th>E-mail</th><td th:text="${cliente.email}"></td></tr>
+        <tr><th>CPF</th><td th:text="${cliente.cpf}"></td></tr>
+        <tr><th>Telefone</th><td th:text="${cliente.telefone}"></td></tr>
+        <tr><th>Endereço</th><td th:text="${cliente.logradouro + ', ' + cliente.numero + ' ' + (cliente.complemento ?: '') + ' - ' + cliente.bairro + ', ' + cliente.cidade + '/' + cliente.uf + ' - CEP ' + cliente.cep}"></td></tr>
     </table>
-
     <form th:action="@{/clientes/delete/{id}(id=${cliente.id})}" method="post">
-        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
-        <a th:href="@{/clientes}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Excluir cliente</button>
+        <a th:href="@{/clientes}" class="btn btn-outline-secondary">Cancelar</a>
     </form>
-</div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>

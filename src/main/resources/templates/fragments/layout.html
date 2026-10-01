@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' - Sistema de Vendas'">Sistema de Vendas</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body>
+<nav th:fragment="navbar(ativo)" class="navbar navbar-expand-md navbar-dark app-navbar">
+    <div class="container">
+        <a class="navbar-brand fw-semibold" th:href="@{/}">Sistema de Vendas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-label="Abrir menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'home'} ? 'active'" th:href="@{/}">Início</a></li>
+                <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'pedidos'} ? 'active'" th:href="@{/pedidos}">Pedidos</a></li>
+                <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'clientes'} ? 'active'" th:href="@{/clientes}">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" th:classappend="${ativo == 'produtos'} ? 'active'" th:href="@{/produtos}">Produtos</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div th:fragment="alertas">
+    <div class="alert alert-danger" role="alert" th:if="${erro}" th:text="${erro}"></div>
+    <div class="alert alert-success" role="alert" th:if="${sucesso}" th:text="${sucesso}"></div>
+</div>
+<span th:fragment="status(p)" class="badge" th:classappend="${p.status.name() == 'ATIVO'} ? 'bg-success' : 'bg-danger'" th:text="${p.status}"></span>
+<th:block th:fragment="scripts"><script th:src="@{/js/bootstrap.bundle.min.js}"></script></th:block>
+</body>
+</html>

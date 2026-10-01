@@ -1,49 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Listagem de Pedidos</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('Pedidos')}"></head>
 <body>
-<div class="container mt-4">
-    <h1>Pedidos</h1>
-    <a class="btn btn-primary mb-3" th:href="@{/pedidos/novo}">Novo Pedido</a>
-
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Data/Hora</th>
-            <th>Valor Total</th>
-            <th>Status</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="pedido : ${pedidos}">
-            <td th:text="${pedido.id}"></td>
-            <td th:text="${pedido.cliente.nome}"></td>
-            <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
-            <td th:text="${#numbers.formatCurrency(pedido.valorTotal)}"></td>
-            <td>
-                <span th:if="${pedido.status.name() == 'ATIVO'}" class="badge bg-success">ATIVO</span>
-                <span th:if="${pedido.status.name() == 'CANCELADO'}" class="badge bg-danger">CANCELADO</span>
-            </td>
-            <td>
-                <a class="btn btn-sm btn-info" th:href="@{/pedidos/detalhes/{id}(id=${pedido.id})}">Detalhes</a>
-                <a th:if="${pedido.status.name() == 'ATIVO'}" 
-                   class="btn btn-sm btn-warning" 
-                   th:href="@{/pedidos/edit/{id}(id=${pedido.id})}">Editar</a>
-                <a th:if="${pedido.status.name() == 'ATIVO'}" 
-                   class="btn btn-sm btn-danger" 
-                   th:href="@{/pedidos/cancelar/{id}(id=${pedido.id})}">Cancelar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<nav th:replace="~{fragments/layout :: navbar('pedidos')}"></nav>
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="page-title h3 mb-0">Pedidos</h1>
+        <a class="btn btn-primary" th:href="@{/pedidos/novo}">Novo pedido</a>
+    </div>
+    <div th:replace="~{fragments/layout :: alertas}"></div>
+    <div class="table-responsive bg-white border rounded">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Nº</th><th>Cliente</th><th>Data</th><th>Valor total</th><th>Status</th><th class="text-end">Ações</th></tr></thead>
+            <tbody>
+            <tr th:each="pedido : ${pedidos}">
+                <td th:text="'#' + ${pedido.id}"></td>
+                <td th:text="${pedido.cliente.nome}"></td>
+                <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#numbers.formatCurrency(pedido.valorTotal)}"></td>
+                <td><span th:replace="~{fragments/layout :: status(${pedido})}"></span></td>
+                <td class="text-end text-nowrap">
+                    <a class="btn btn-sm btn-outline-primary" th:href="@{/pedidos/detalhes/{id}(id=${pedido.id})}">Detalhes</a>
+                    <a th:if="${pedido.status.name() == 'ATIVO'}" class="btn btn-sm btn-outline-secondary" th:href="@{/pedidos/edit/{id}(id=${pedido.id})}">Editar</a>
+                    <a th:if="${pedido.status.name() == 'ATIVO'}" class="btn btn-sm btn-outline-danger" th:href="@{/pedidos/cancelar/{id}(id=${pedido.id})}">Cancelar</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(pedidos)}"><td colspan="6" class="text-center text-secondary py-4">Nenhum pedido ainda. Use "Novo pedido" para registrar o primeiro.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>

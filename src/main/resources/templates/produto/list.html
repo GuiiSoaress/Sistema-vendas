@@ -1,40 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Listagem de Clientes</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('Produtos')}"></head>
 <body>
-<div class="container mt-4">
-    <h1>Produtos</h1>
-    <a class="btn btn-primary mb-3" th:href="@{/produtos/novo}">Novo Produto</a>
-
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-        <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Preço</th>
-            <th>Quantidade em Estoque</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="produto : ${produtos}">
-            <td th:text="${produto.nome}"></td>
-            <td th:text="${produto.descricao}"></td>
-            <!-- <td th:text="${produto.preco}"></td> -->
-            <td th:text="${#numbers.formatCurrency(produto.preco)}"></td>
-            <td th:text="${produto.quantidadeEmEstoque}"></td>
-            <td>
-                <a class="btn btn-sm btn-warning" th:href="@{/produtos/edit/{id}(id=${produto.id})}">Editar</a>
-                <a class="btn btn-sm btn-danger" th:href="@{/produtos/delete/{id}(id=${produto.id})}">Excluir</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<nav th:replace="~{fragments/layout :: navbar('produtos')}"></nav>
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="page-title h3 mb-0">Produtos</h1>
+        <a class="btn btn-primary" th:href="@{/produtos/novo}">Novo produto</a>
+    </div>
+    <div th:replace="~{fragments/layout :: alertas}"></div>
+    <div class="table-responsive bg-white border rounded">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Nome</th><th>Descrição</th><th>Preço</th><th>Estoque</th><th class="text-end">Ações</th></tr></thead>
+            <tbody>
+            <tr th:each="produto : ${produtos}">
+                <td th:text="${produto.nome}"></td>
+                <td th:text="${produto.descricao}"></td>
+                <td th:text="${#numbers.formatCurrency(produto.preco)}"></td>
+                <td>
+                    <span th:text="${produto.quantidadeEmEstoque}"></span>
+                    <span class="badge bg-warning text-dark ms-1" th:if="${produto.quantidadeEmEstoque <= 0}">Sem estoque</span>
+                </td>
+                <td class="text-end text-nowrap">
+                    <a class="btn btn-sm btn-outline-secondary" th:href="@{/produtos/edit/{id}(id=${produto.id})}">Editar</a>
+                    <a class="btn btn-sm btn-outline-danger" th:href="@{/produtos/delete/{id}(id=${produto.id})}">Excluir</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(produtos)}"><td colspan="5" class="text-center text-secondary py-4">Nenhum produto cadastrado. Use "Novo produto" para começar.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
 </body>
 </html>
